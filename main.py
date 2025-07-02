@@ -1,33 +1,23 @@
+import sys
 from stats import (
     count_words,
     count_letters, 
     sort_to_list,
+    get_book_text,
+    print_report,
 )
 
 def main():
-    book_text = get_book_text("books/frankenstein.txt")
+    if  len(sys.argv) < 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    else:
+        file_path = sys.argv[1]
+    book_text = get_book_text(file_path)
     num_words = count_words(book_text)
     print(f"Found {num_words} total words")
     letters = count_letters(book_text)
     sorted_list = sort_to_list(letters)
-    print(sorted_list)
-
-def get_book_text(file_path):
-    with open(file_path) as f:
-        return f.read()
-
-def print_report(book_text, num_words, sort_to_list):
-    print("============ BOOKBOT ============")
-    print(f"Analyzing book found at {book_text}...")
-    print("----------- Word Count ----------")
-    print(f"Found {num_words} total words")
-    print("--------- Character Count -------")
-    for item in sort_to_list:
-        if not item["char"].isalpha():
-            continue
-        print(f"{item['char']}: {item['num']}")
-    
-    print("============= END ===============")
-
+    print_report(file_path, num_words, sorted_list)
 
 main()
